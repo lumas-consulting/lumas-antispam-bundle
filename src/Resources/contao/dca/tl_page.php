@@ -24,7 +24,8 @@ PaletteManipulator::create()
 		'lumas_antispam_maxLinks',
 		'lumas_antispam_minLen',
 	], 'lumas_antispam_legend', PaletteManipulator::POSITION_APPEND)
-	->applyToPalette('root', 'tl_page');
+	->applyToPalette('root', 'tl_page')
+	->applyToPalette('rootfallback', 'tl_page');
 
 /*
  * Felder
