@@ -1,6 +1,6 @@
 {
   "name": "lumas/antispam-bundle",
-  "description": "Antispam Erweiterung für Contao 5 und 6",
+  "description": "Contao Antispam including honeypot, Session and IP Blocking, stop words detection for different languages, time based blocking",
   "type": "contao-bundle",
   "license": "MIT",
   "require": {
