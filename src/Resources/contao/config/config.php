@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Backend-Module: LUMAS AntiSpam
  */
-$GLOBALS['BE_MOD']['system']['lumas_antispam'] = [
+$GLOBALS['BE_MOD']['lumas_antispam'] = [
 	'lumas_antispam_ips' => [
 		'tables' => ['tl_lumas_antispam_ip_block'],
 	],
