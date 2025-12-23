@@ -1,11 +1,6 @@
 # lumas-antispam
 Contao Antispam includes honeypot, Session &amp; IP Blocking, stop words detection for different languages, time based blocking.
 
-## Installation
-
-1. Installation via Composer:
-   `composer require eBlick/lumas-antispam-bundle`
-2. Contao Manager öffnen und das Plugin laden.
 
 LUMAS AntiSpam Bundle for Contao
 Eine leistungsfähige, vollständig integrierte Anti-Spam-Erweiterung für Contao 5 und 6.
@@ -66,10 +61,12 @@ Diese Werte gelten für alle Formulare, sofern sie nicht überschrieben werden.
 
 ## Formular-spezifische Einstellungen
 In jedem Formular:
-- AntiSpam aktivieren
+1.) AntiSpam aktivieren
+2.) Formulartemplate ändern form_wrapper_lumas_antispam.html5
+3.) Falls Text-Area Feld im Formular verwendet wird, dieses "message", "nachricht" oder "comment" nennen damit Textprüfung greift.
 
 Optionale Overrides:
-- IP-Sperre
+- IP-Sperre aktivieren/deaktivieren
 - Zeit- & Text-Heuristik
 - Sprache
 - Nicht gesetzte Werte erben automatisch die Root-Defaults.
