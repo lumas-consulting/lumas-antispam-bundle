@@ -3,7 +3,7 @@ Contao Antispam includes honeypot, Session &amp; IP Blocking, stop words detecti
 
 
 LUMAS AntiSpam Bundle for Contao
-Eine leistungsfähige, vollständig integrierte Anti-Spam-Erweiterung für Contao 5 und 6.
+Eine einfache aber wirkungsvolle, vollständig integrierte Anti-Spam-Erweiterung für Contao 5 und 6.
 Das Bundle schützt Formulare vor Spam, Bots und Missbrauch – ohne externe Dienste, granular konfigurierbar.
 
 ## Features
@@ -81,9 +81,9 @@ Beim Absenden:
 - Textlänge & Sprache prüfen
 
 Bei Verstoß:
-- Formular wird blockiert
+- Formular wird nach x-tem Fehlversuch blockiert (Session Sperre)
 - Session-Fehlversuche gezählt
-- IP-Negativ Reputation erhöht
+- IP-Negativ Reputation erhöht -> 24h Sperre für IP
 - Log-Eintrag geschrieben
 
 Ab bestimmten Schwellen:
@@ -113,6 +113,9 @@ Funktionen:
 - Contao 6.x
 - PHP 8.2 – 8.4
 - Keine externen APIs
+
+## work in progress
+Weitere Ideen Änderungen gerne hier oder in eigener Branch. 
 
 MIT License
 © LUMAS Consulting
