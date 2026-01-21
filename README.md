@@ -1,5 +1,5 @@
 # lumas-antispam
-Contao Antispam includes honeypot, Session &amp; IP Blocking, stop words detection for different languages, time based blocking.
+Contao Antispam includes honeypot, Session und IP Blocking, stop words detection for different languages, time based blocking.
 
 
 LUMAS AntiSpam Bundle for Contao
