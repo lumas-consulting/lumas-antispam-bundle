@@ -25,6 +25,13 @@ Formularbasierter Spam-Schutz
 - Backend-Module zur Verwaltung
 - Composer / Packagist ready
 
+Direct-POST Protection (Session-Historien-Prüfung)
+Viele moderne Spam-Bots laden das Formular nicht im Browser, sondern senden die Formulardaten (POST) direkt an die Ziel-URL. Dadurch werden herkömmliche Frontend-Checks (wie Honeypots oder JavaScript-Prüfungen) umgangen.
+- Beim regulären Aufruf der Seite (GET-Request) generiert das Bundle einen unsichtbaren Zeitstempel (startTime) in der Benutzersession.
+- Sobald Formulardaten per POST gesendet werden, prüft der Hook zwingend, ob dieser Zeitstempel existiert.
+- Fehlt der Zeitstempel, wird der Request sofort als DIRECT_POST_ATTEMPT geloggt und mit einem harten HTTP 403 (Forbidden) abgebrochen.
+- Vorteil: Der Prozess stirbt, bevor Contao die Daten verarbeitet. Es werden keine leeren E-Mails mehr über das Notification Center (NC) verschickt.
+
 ## Installation
 composer require lumas/antispam-bundle
 
