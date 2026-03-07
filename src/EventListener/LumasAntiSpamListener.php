@@ -40,24 +40,6 @@ final class LumasAntiSpamListener
 	 */
 	private array $processedForms = [];
 
-	/**
-	 * Cache for flipped stopword lists to avoid array_flip on every validation
-	 * @var array<string, array<string, int>>
-	 */
-	private array $stopwordSets = [];
-
-	/**
-	 * Memoization cache for settings to prevent repeated processing
-	 * @var array<string, mixed>
-	 */
-	private array $settingsCache = [];
-
-	/**
-	 * Cache the Root PageModel per request to avoid multiple DB hits
-	 */
-	private ?PageModel $rootPage = null;
-	private bool $rootPageLoaded = false;
-
 	private array $stopwords = [
 		'de' => [
 			'aber','alle','allem','allen','aller','alles','als','also','am','an','ander','andere','anderem','anderen','anderer','anderes','anderm','andern','anderr','anders','auch','auf','aus','bei','bin','bis','bist','da','damit','dann','das','dass','daß','dein','deine','deinem','deinen','deiner','deines','dem','den','denn','der','des','dessen','deshalb','die','dies','diese','diesem','diesen','dieser','dieses','doch','dort','du','durch','ein','eine','einem','einen','einer','eines','einmal','er','es','etwas','euer','eure','eurem','euren','eurer','eures','für','gegen','gewesen','habe','haben','hat','hatte','hatten','hier','hin','hinter','ich','ihm','ihn','ihr','ihre','ihrem','ihren','ihrer','ihres','im','in','indem','ins','ist','ja','jede','jedem','jeden','jeder','jedes','jene','jenem','jenen','jener','jenes','jetzt','kann','kein','keine','keinem','keinen','keiner','keines','können','könnte','machen','man','manche','manchem','manchen','mancher','manches','mein','meine','meinem','meinen','meiner','meines','mich','mir','mit','muss','musste','nach','nicht','nichts','noch','nun','nur','ob','oder','ohne','sehr','sein','seine','seinem','seinen','seiner','seines','selbst','sich','sie','sind','so','solche','solchem','solchen','solcher','solches','soll','sollen','sollte','sondern','sonst','um','und','uns','unse','unser','unsere','unserem','unseren','unserer','unseres','unter','viel','vom','von','vor','war','waren','warst','was','weg','weil','weiter','welche','welchem','welchen','welcher','welches','wenn','wer','werde','werden','wie','wieder','wir','wird','wirst','wo','wollen','wollte','während','würde','würden','zu','zum','zur','zwar','zwischen','ab','allein','alles','andere','bald','beide','beim','beispiel','bekannt','besonders','besser','besten','bin','bis','bisschen','bitte','dabei','dadurch','dafür','dagegen','daher','damals','danach','darauf','daraus','darin','darum','darüber','davon','dazu','dennoch','derselbe','deshalb','desselben','dessen','dich','dir','drei','drin','dritte','drunter','drüber','dunkel','durch','durfte','durften','eben','ebenso','eigene','eigenen','eigner','einfach','einig','einige','einigen','einiger','einiges','einmal','eins','einzig','ende','endlich','entlang','entweder','erst','erste','ersten','erster','erstes','etwa','euch','euer','eurer','fast','fertig','fort','fragte','frei','freie','freier','freies','ganz','ganze','ganzen','ganzer','ganzes','gar','gebe','geben','geblieben','gebracht','gedacht','gefallen','gegangen','gehalten','gekommen','gemacht','genommen','gesagt','gesehen','gespielt','gestern','getan','getreten','gewesen','geworden','gibt','ging','glück','groß','große','großen','großer','großes','gut','gute','guten','guter','gutes','hallo','halt','hast','hat','hatte','hattest','hatten','hattet','heißt','helfen','heute','hier','hin','hinein','hinten','hinter','hoch','höher','höre','hören','immer','irgend','irgendwas','irgendwen','irgendwie','irgendwo','ist','ja','jahr','jahre','jahren','je','jede','jedem','jeden','jeder','jedes','jemand','jemanden','jener','jenes','jetzt','jung','junge','jungen','junger','junges','kam','kann','kannst','kaum','kein','keine','keinem','keinen','keiner','keines','kennt','klar','klein','kleine','kleinen','kleiner','kleines','kommen','kommt','konnte','konntest','konnten','konntet','kurz','können','könnt','könnte','könnten','küche','lassen','lasse','lässt','laufen','laut','leben','leicht','leise','lernen','lesen','letzte','letzten','letzter','letztes','leute','liebe','liegen','lieber','links','lustig','machen','macht','machte','machten','mag','mags','mal','man','manche','manchem','manchen','mancher','manches','mann','mehr','mein','meine','meinem','meinen','meiner','meines','mensch','menschen','mich','mir','mit','muss','musst','musste','mussten','mut','mutter','müssen','müsst','müsste','nach','nachdem','nacher','nacht','nah','nahe','name','natürlich','neben','nein','nennen','neu','neue','neuen','neuer','neues','neun','nicht','nichts','nie','niemand','noch','nun','nur','nächste','oben','obgleich','obschon','obwohl','oder','oft','ohne','ordnung','paar','passiert','platz','plötzlich','punkt','quasi','recht','rechten','rechter','rechtes','richtig','rund','ruft','sache','sagen','sagt','sagte','sagten','sah','samt','satz','schauen','scheinen','schlecht','schnell','schon','schreiben','schreien','schritt','schuh','schwarz','schwer','schwester','sechs','sehen','sehr','sei','seien','sein','seine','seinem','seinen','seiner','seines','seit','seite','selber','selbst','setzen','sich','sicher','sie','sieben','siehst','sieht','sind','sitzen','so','sobald','sofort','sogar','soll','sollst','sollte','sollten','somit','sondern','sonst','soviel','soweit','sowie','später','statt','stehen','steht','stelle','stellen','stets','stück','stunde','suche','suchen','tag','tage','tagen','teil','tief','tisch','tot','trotzdem','tun','tust','tut','uhr','um','unbedingt','und','uns','unse','unser','unsere','unserem','unseren','unserer','unseres','unten','unter','vater','vergangen','vermag','verschieden','versteht','versuchen','viel','viele','vielen','vieles','vielleicht','vier','vom','von','vor','vorbei','vorher','vorne','wahr','war','waren','warst','wart','warum','was','wasser','weder','weg','wegen','weil','weiß','weit','weiter','weitere','weitgehend','welche','welchem','welchen','welcher','welches','welt','wem','wen','wenig','wenige','wenigstens','wenn','wer','werde','werden','werdet','weshalb','wessen','wie','wieder','wieso','will','willst','wir','wird','wirklich','wirst','wo','woher','wohin','wohl','wollen','wollt','wollte','wollten','wolltest','wort','wurde','wurden','während','wäre','wären','würde','würden','zehn','zeit','ziemlich','zu','zuerst','zugleich','zum','zunächst','zur','zurück','zusammen','zwei','zwischen','zwölf'
@@ -113,18 +95,13 @@ final class LumasAntiSpamListener
 		return ($ip !== null && $ip !== '') ? $ip : null;
 	}
 
-	private function isAjaxRequest(Request $request): bool
-	{
-		return $request->isXmlHttpRequest() || $request->headers->has('Contao-Ajax-Request');
-	}
-
 	/**
 	 * Key for the CacheInterface layer (status cache).
 	 * Must be stable and PSR-compatible.
 	 */
 	private function cacheKeyForIp(string $ip): string
 	{
-		return 'lumas_antispam_status_' . sha1($ip);
+		return 'lumas_antispam_status_' . preg_replace('/[^A-Za-z0-9_]/', '_', $ip);
 	}
 
 	/**
@@ -159,62 +136,39 @@ final class LumasAntiSpamListener
 	private function getSetting(string $key, Form $form): mixed
 	{
 		$dcaKey = 'lumas_antispam_' . $key;
-		
-		// Create a cache key per form to avoid repeated lookups
-		$cacheKey = spl_object_id($form) . '_' . $key;
-
-		if (array_key_exists($cacheKey, $this->settingsCache)) {
-			return $this->settingsCache[$cacheKey];
-		}
 
 		// 1) per-form
 		if (($val = $form->{$dcaKey} ?? null) !== null && (string) $val !== '') {
-			$this->settingsCache[$cacheKey] = $val;
 			return $val;
 		}
 
 		// 2) root page
-		if (!$this->rootPageLoaded) {
-			$this->rootPageLoaded = true;
-			$request = $this->requestStack->getCurrentRequest();
-			$page = $request?->attributes->get('pageModel') ?? ($GLOBALS['objPage'] ?? null);
+		$request = $this->requestStack->getCurrentRequest();
+		$page = $request?->attributes->get('pageModel') ?? ($GLOBALS['objPage'] ?? null);
 
-			if ($page instanceof PageModel) {
-				$rootId = (int) ($page->rootId ?: $page->id);
-				$this->rootPage = PageModel::findByPk($rootId);
+		if ($page instanceof PageModel) {
+			$rootId = (int) ($page->rootId ?: $page->id);
+			$root = PageModel::findByPk($rootId);
+
+			if ($root instanceof PageModel) {
+				if (($val = $root->{$dcaKey} ?? null) !== null && (string) $val !== '') {
+					return $val;
+				}
 			}
 		}
 
-		if ($this->rootPage instanceof PageModel) {
-			if (($val = $this->rootPage->{$dcaKey} ?? null) !== null && (string) $val !== '') {
-				$this->settingsCache[$cacheKey] = $val;
-				return $val;
-			}
-		}
-
-		$this->settingsCache[$cacheKey] = $this->defaults[$key] ?? null;
-		return $this->settingsCache[$cacheKey];
+		return $this->defaults[$key] ?? null;
 	}
 
 	/**
 	 * Marker: stable per POST-request, different across separate POSTs.
-	 * Idempotent during the exact same request lifecycle.
+	 * Used to avoid double-counting if validateFormField runs multiple times.
 	 */
 	private function makeSubmitMarker(string $formKey, SessionInterface $session, Request $request): string
 	{
-		$attr = '_lumas_antispam_marker_' . md5($formKey);
+		$t = (string) ($request->server->get('REQUEST_TIME') ?? time());
 
-		if ($request->attributes->has($attr)) {
-			return (string) $request->attributes->get($attr);
-		}
-
-		// Use REQUEST_TIME_FLOAT or microtime for millisecond precision
-		$t = (string) ($request->server->get('REQUEST_TIME_FLOAT') ?? microtime(true));
-		$marker = hash('sha256', $formKey . '|' . $session->getId() . '|' . $t);
-
-		$request->attributes->set($attr, $marker);
-
-		return $marker;
+		return hash('sha256', $formKey . '|' . $session->getId() . '|' . $t);
 	}
 
 	private function logOnly(string $ip, string $reason, string $formAlias, array $details = []): void
@@ -262,12 +216,6 @@ final class LumasAntiSpamListener
 		if (!$event->isMainRequest()) {
 			return;
 		}
-
-		// Reset request-scoped caches (important for shared services in Symfony)
-		$this->processedForms = [];
-		$this->settingsCache = [];
-		$this->rootPage = null;
-		$this->rootPageLoaded = false;
 
 		$request = $event->getRequest();
 
@@ -324,9 +272,9 @@ final class LumasAntiSpamListener
 					]);
 				});
 
-				// Wir unterbinden Exception auf POST, damit validateFormField AJAX sauber bedienen kann
+				// VERHINDERT DIE CONTAO-FALLE: Niemals [] bei POST zurückgeben!
 				if ($request->isMethod('POST')) {
-					return $fields;
+					throw new AccessDeniedHttpException('Session is temporarily blocked.');
 				}
 
 				return [];
@@ -346,10 +294,10 @@ final class LumasAntiSpamListener
 				]);
 			});
 
-			// FIX: Logging für POST entfernt, da validateFormField() das übernimmt. 
-			// Wir lassen POST durch, damit validateFormField() den Abbruch (inkl. AJAX-Fallback) durchführt.
+			// VERHINDERT DIE CONTAO-FALLE: Niemals [] bei POST zurückgeben!
 			if ($request->isMethod('POST')) {
-				return $fields;
+				$this->logOnly($ip, 'BLOCKED_IP_POST_ATTEMPT', $formAlias, ['ua' => $request->headers->get('User-Agent')]);
+				throw new AccessDeniedHttpException('IP is globally blocked.');
 			}
 
 			return [];
@@ -361,7 +309,7 @@ final class LumasAntiSpamListener
 			$map = $session->get('lumas_antispam_form_start', []);
 
 			if (!isset($map[$formKey])) {
-				$map[$formKey] = microtime(true); // Using float for ms precision
+				$map[$formKey] = time();
 				$session->set('lumas_antispam_form_start', $map);
 			}
 		}
@@ -404,38 +352,21 @@ final class LumasAntiSpamListener
 			return $widget;
 		}
 
-		// EARLY RETURN: If this submit was already checked and passed, skip all further checks for this field.
-		if (($this->processedForms[$formKey] ?? null) === false) {
-			return $widget;
-		}
-
 		// --- 1. HARTE IP-SPERRE (Sofort-Abbruch für bekannte Spammer als Fallback) ---
 		if ($this->isOne($this->getSetting('ip_block', $form)) && $this->isBlockedGlobal($ip)) {
-			// FIX: Flag sofort setzen, damit Folgewidgets keine Caches neu triggern
 			$this->processedForms[$formKey] = true;
-			
 			$this->logOnly($ip, 'BLOCKED_IP_POST_ATTEMPT', $formAlias, [
 				'ua' => $request->headers->get('User-Agent'),
 				'uri' => $request->getRequestUri()
 			]);
-			
-			// AJAX Graceful Degradation
-			if ($this->isAjaxRequest($request)) {
-				$widget->addError('Sicherheitsrichtlinie: Anfrage abgelehnt (IP blockiert).');
-				return $widget;
-			}
-			
-			throw new AccessDeniedHttpException('IP is globally blocked. Submit denied.');
+			throw new AccessDeniedHttpException('Invalid session state. Submit denied.');
 		}
 
 		// --- 2. DIRECT POST PROTECTION (Killer für Lutz-Rae Bot) ---
 		$startMap = $session->get('lumas_antispam_form_start', []);
-		$startTime = (float) ($startMap[$formKey] ?? 0);
+		$startTime = (int) ($startMap[$formKey] ?? 0);
 
-		if ($startTime === 0.0) {
-			// FIX: Flag sofort setzen! Verhindert Loop, doppeltes Loggen & massiven Score-Anstieg bei AJAX
-			$this->processedForms[$formKey] = true; 
-
+		if ($startTime === 0) {
 			$this->logOnly($ip, 'DIRECT_POST_ATTEMPT', $formAlias, [
 				'ua' => $request->headers->get('User-Agent'),
 				'uri' => $request->getRequestUri()
@@ -444,12 +375,6 @@ final class LumasAntiSpamListener
 			// 2. IP sofort auf die schwarze Liste setzen (Reputation erhöhen)
 			if ($this->isOne($this->getSetting('ip_block', $form))) {
 				$this->updateReputation($ip);
-			}
-
-			// AJAX Graceful Degradation
-			if ($this->isAjaxRequest($request)) {
-				$widget->addError('Ihre Sitzung ist ungültig oder abgelaufen. Bitte laden Sie die Seite neu.');
-				return $widget;
 			}
 
 			// 3. HARTER ABBRUCH: Keine Mail, kein NC, keine weitere Verarbeitung.
@@ -597,7 +522,7 @@ final class LumasAntiSpamListener
 	private function checkSpam(
 		Widget $widget,
 		Request $request,
-		float $start,
+		int $start,
 		bool $hadTime,
 		int $minDelay,
 		int $minStop,
@@ -611,7 +536,7 @@ final class LumasAntiSpamListener
 
 		// Too fast
 		if ($hadTime) {
-			$delta = microtime(true) - $start;
+			$delta = time() - $start;
 
 			if ($delta < $minDelay) {
 				return 'TOO_FAST';
@@ -642,20 +567,9 @@ final class LumasAntiSpamListener
 			return false;
 		}
 
-		// NORMALISIERUNG & EFFEKTIVE SPRACHE
-		$lang = strtolower($lang);
-		$langParts = preg_split('/[-_]/', $lang);
-		$lang = $langParts[0] ?? $lang;
-		$effectiveLang = isset($this->stopwords[$lang]) ? $lang : 'de';
+		$list = $this->stopwords[$lang] ?? $this->stopwords['de'];
+		$set = array_flip($list);
 
-		if (!isset($this->stopwordSets[$effectiveLang])) {
-			$this->stopwordSets[$effectiveLang] = array_flip($this->stopwords[$effectiveLang]);
-		}
-
-		$set = $this->stopwordSets[$effectiveLang];
-
-		// Verhindert Bug, falls $minStop versehentlich auf 0 konfiguriert wurde
-		$minStop = max(1, $minStop);
 		$hits = 0;
 
 		foreach ($tokens as $t) {
@@ -681,10 +595,10 @@ final class LumasAntiSpamListener
 		array $formData,
 		string $formKey,
 		array $state,
-		float $start,
+		int $start,
 		int $minDelay,
 	): void {
-		$now = microtime(true);
+		$now = time();
 		$delta = $start > 0 ? ($now - $start) : null;
 
 		$this->logOnly($ip, $reason, $formAlias, [
@@ -700,7 +614,7 @@ final class LumasAntiSpamListener
 			// timing debug (helps prove TOO_FAST)
 			'start'    => $start ?: null,
 			'now'      => $now,
-			'delta'    => $delta ? round($delta, 3) : null,
+			'delta'    => $delta,
 			'minDelay' => $minDelay,
 		]);
 	}
